@@ -3,14 +3,12 @@ import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
+import { exportExcel } from "../../../lib/export_excel.js";
 
-const execFileAsync = promisify(execFile);
 export const runtime = "nodejs";
 
 export async function POST(req) {
-  let tempJsonPath = null;
+
   let tempOutPath = null;
   
   try {
@@ -26,23 +24,16 @@ export async function POST(req) {
     }
     
     const timestamp = Date.now();
-    tempJsonPath = path.join(tempDir, `${timestamp}_export_input.json`);
+
     tempOutPath = path.join(tempDir, `${timestamp}_export_output.xlsx`);
     
-    // Write JSON payload to temp file
-    fs.writeFileSync(tempJsonPath, JSON.stringify(clients));
+
     
-    // Paths for python script
-    const scriptPath = path.join(process.cwd(), "lib", "export_excel.py");
+    // Paths for template
     const templatePath = path.join(process.cwd(), "data", "TwoGoodCo-PWI_Client_Tracker.xlsx");
     
-    // Execute Python script
-    const { stdout } = await execFileAsync("python3", [scriptPath, tempJsonPath, templatePath, tempOutPath]);
-    
-    const parsed = JSON.parse(stdout.trim());
-    if (parsed.error) {
-      throw new Error(parsed.error);
-    }
+    // Execute Native JS script
+    exportExcel(clients, templatePath, tempOutPath);
     
     // Read the generated Excel file
     const fileBuffer = fs.readFileSync(tempOutPath);
@@ -64,14 +55,12 @@ export async function POST(req) {
     );
   } finally {
     // Cleanup temporary files
-    [tempJsonPath, tempOutPath].forEach(p => {
-      if (p && fs.existsSync(p)) {
-        try {
-          fs.unlinkSync(p);
-        } catch (e) {
-          console.warn(`[api/export] failed to clean up temp file ${p}:`, e.message);
-        }
+    if (tempOutPath && fs.existsSync(tempOutPath)) {
+      try {
+        fs.unlinkSync(tempOutPath);
+      } catch (e) {
+        console.warn(`[api/export] failed to clean up temp file ${tempOutPath}:`, e.message);
       }
-    });
+    }
   }
 }

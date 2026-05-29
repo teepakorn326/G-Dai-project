@@ -7,8 +7,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
+import { parseFiles } from "../../lib/parse_excel.js";
 import { gen } from "../../lib/gemini.js";
 import {
   averagePerDimension,
@@ -26,7 +25,7 @@ import {
   generateNarrative
 } from "./prompt.js";
 
-const execFileAsync = promisify(execFile);
+
 
 export async function handle({ input, file }) {
   // Load tracker JSON (for fallbacks and default dataset)
@@ -43,13 +42,8 @@ export async function handle({ input, file }) {
   if (file && Array.isArray(file) && file.length > 0) {
     console.log(`[two-good] Parsing uploaded spreadsheets: ${file.map(f => f.name).join(', ')}`);
     try {
-      const scriptPath = path.join(process.cwd(), "lib", "parse_excel.py");
       const tempPaths = file.map(f => f.tempFilePath);
-      const { stdout } = await execFileAsync("python3", [scriptPath, ...tempPaths]);
-      const parsed = JSON.parse(stdout.trim());
-      if (parsed.error) {
-        throw new Error(parsed.error);
-      }
+      const parsed = parseFiles(tempPaths);
       clients = parsed.clients;
       console.log(`[two-good] Successfully parsed ${clients.length} clients from uploaded files.`);
     } catch (err) {

@@ -6,10 +6,7 @@ import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
-
-const execFileAsync = promisify(execFile);
+import { parseFiles } from "../../../lib/parse_excel.js";
 
 export const runtime = "nodejs";
 
@@ -47,31 +44,14 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid files uploaded." }, { status: 400 });
     }
     
-    // Execute Python parser
-    const scriptPath = path.join(process.cwd(), "lib", "parse_excel.py");
-    const { stdout } = await execFileAsync("python3", [scriptPath, ...tempFilePaths]);
-    
-    const parsed = JSON.parse(stdout.trim());
-    if (parsed.error) {
-      throw new Error(parsed.error);
-    }
+    // Execute Native JS parser
+    const parsed = parseFiles(tempFilePaths);
     
     return NextResponse.json({ ok: true, clients: parsed.clients, sheets: parsed.sheets });
   } catch (err) {
     console.error("[api/parse] failed:", err);
-    
-    let cleanError = err?.message || "Failed to parse spreadsheet file.";
-    if (err.stdout) {
-      try {
-        const parsedOut = JSON.parse(err.stdout.trim());
-        if (parsedOut.error) cleanError = parsedOut.error;
-      } catch (e) {
-        // Fallback if not JSON
-      }
-    }
-    
     return NextResponse.json(
-      { error: cleanError },
+      { error: err?.message || "Failed to parse spreadsheet file." },
       { status: 500 }
     );
   } finally {
