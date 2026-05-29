@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import ReportSummary from "./ReportSummary.jsx";
 
 export default function ReportDashboard() {
   const [loading, setLoading] = useState(false);
@@ -388,13 +389,8 @@ export default function ReportDashboard() {
                 </div>
               </section>
 
-              {/* Added Narrative Highlight */}
-              <div className="mt-8 bg-surface border border-outline-variant rounded-xl p-6 shadow-sm">
-                <h3 className="font-headline-md text-headline-md mb-4 text-primary">Gemini Impact Narrative Summary</h3>
-                <p className="font-body-md text-body-md text-secondary whitespace-pre-wrap leading-relaxed">
-                  {report.result.narrative.headlineOutcomes}
-                </p>
-              </div>
+              {/* Dashboard review summary */}
+              <ReportSummary report={report} />
             </div>
           )}
 
