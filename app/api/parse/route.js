@@ -5,6 +5,7 @@
 import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
@@ -27,8 +28,8 @@ export async function POST(req) {
       return NextResponse.json({ error: "Maximum of 5 files allowed." }, { status: 400 });
     }
     
-    // Create temp directory
-    const tempDir = path.join(process.cwd(), ".tmp_uploads");
+    // Use OS temp directory for Vercel compatibility
+    const tempDir = path.join(os.tmpdir(), "gdai_uploads");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -58,8 +59,19 @@ export async function POST(req) {
     return NextResponse.json({ ok: true, clients: parsed.clients, sheets: parsed.sheets });
   } catch (err) {
     console.error("[api/parse] failed:", err);
+    
+    let cleanError = err?.message || "Failed to parse spreadsheet file.";
+    if (err.stdout) {
+      try {
+        const parsedOut = JSON.parse(err.stdout.trim());
+        if (parsedOut.error) cleanError = parsedOut.error;
+      } catch (e) {
+        // Fallback if not JSON
+      }
+    }
+    
     return NextResponse.json(
-      { error: err?.message || "Failed to parse spreadsheet file." },
+      { error: cleanError },
       { status: 500 }
     );
   } finally {

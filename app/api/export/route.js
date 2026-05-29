@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
@@ -18,8 +19,8 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid clients data provided." }, { status: 400 });
     }
     
-    // Create temp directory
-    const tempDir = path.join(process.cwd(), ".tmp_uploads");
+    // Use OS temp directory for Vercel compatibility
+    const tempDir = path.join(os.tmpdir(), "gdai_uploads");
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
@@ -35,8 +36,8 @@ export async function POST(req) {
     const scriptPath = path.join(process.cwd(), "lib", "export_excel.py");
     const templatePath = path.join(process.cwd(), "data", "TwoGoodCo-PWI_Client_Tracker.xlsx");
     
-    // Execute Python script using the Anaconda python which has openpyxl
-    const { stdout } = await execFileAsync("/opt/anaconda3/bin/python3", [scriptPath, tempJsonPath, templatePath, tempOutPath]);
+    // Execute Python script
+    const { stdout } = await execFileAsync("python3", [scriptPath, tempJsonPath, templatePath, tempOutPath]);
     
     const parsed = JSON.parse(stdout.trim());
     if (parsed.error) {

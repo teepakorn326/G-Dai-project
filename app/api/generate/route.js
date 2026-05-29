@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { handle as handleTwoGood } from "../../../problems/two-good/handler.js";
 import { PROBLEM_IDS } from "../../../lib/constants.js";
 import { loadFallback } from "../../../lib/loadData.js";
@@ -26,8 +27,8 @@ export async function POST(req) {
 
       let filesArr = [];
       if (fileDatas && fileDatas.length > 0) {
-        // Create workspace temp directory
-        const tempDir = path.join(process.cwd(), ".tmp_uploads");
+        // Use OS temp directory for Vercel compatibility
+        const tempDir = path.join(os.tmpdir(), "gdai_uploads");
         if (!fs.existsSync(tempDir)) {
           fs.mkdirSync(tempDir, { recursive: true });
         }

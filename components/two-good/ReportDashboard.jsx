@@ -241,7 +241,7 @@ export default function ReportDashboard() {
                 </div>
               )}
               {parseError && (
-                <div className="bg-error-container text-error p-4 rounded-lg text-sm mb-4">
+                <div className="bg-error-container text-error p-4 rounded-lg text-sm mb-4 border border-outline-variant font-bold">
                   {parseError}
                 </div>
               )}
