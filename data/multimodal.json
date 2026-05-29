@@ -1,0 +1,7 @@
+{
+  "_demo": true,
+  "_note": "DEMO DATA — fallback content for general file analysis.",
+  "fallback": {
+    "narrative": "Based on the uploaded file, here is the automated fallback analysis summary. The document has been processed and is structurally valid, but the live Gemini API connection was interrupted. Please check your network or api key and try again.\n\nKey details extracted from filename:\n- File has been verified.\n- Type and size metadata logged."
+  }
+}

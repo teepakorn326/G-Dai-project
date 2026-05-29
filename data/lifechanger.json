@@ -1,0 +1,31 @@
+{
+  "_demo": true,
+  "_note": "DEMO DATA — synthetic participant records with a deliberate pattern: mentor matching strongly predicts completion, and Cohort B has a much lower mentor-match rate, which is what's pulling its overall completion down.",
+  "records": [
+    { "participantId": "p01", "cohort": "A", "ageBand": "18-24", "mentorMatched": true,  "sessionsAttended": 10, "completed": true,  "employmentMonths": 6 },
+    { "participantId": "p02", "cohort": "A", "ageBand": "25-34", "mentorMatched": true,  "sessionsAttended": 9,  "completed": true,  "employmentMonths": 5 },
+    { "participantId": "p03", "cohort": "A", "ageBand": "18-24", "mentorMatched": true,  "sessionsAttended": 8,  "completed": true,  "employmentMonths": 4 },
+    { "participantId": "p04", "cohort": "A", "ageBand": "35-44", "mentorMatched": true,  "sessionsAttended": 12, "completed": true,  "employmentMonths": 8 },
+    { "participantId": "p05", "cohort": "A", "ageBand": "25-34", "mentorMatched": false, "sessionsAttended": 6,  "completed": false, "employmentMonths": 0 },
+    { "participantId": "p06", "cohort": "A", "ageBand": "18-24", "mentorMatched": true,  "sessionsAttended": 11, "completed": true,  "employmentMonths": 5 },
+    { "participantId": "p07", "cohort": "A", "ageBand": "35-44", "mentorMatched": true,  "sessionsAttended": 9,  "completed": true,  "employmentMonths": 6 },
+    { "participantId": "p08", "cohort": "A", "ageBand": "25-34", "mentorMatched": false, "sessionsAttended": 7,  "completed": false, "employmentMonths": 1 },
+
+    { "participantId": "p09", "cohort": "B", "ageBand": "18-24", "mentorMatched": false, "sessionsAttended": 5,  "completed": false, "employmentMonths": 0 },
+    { "participantId": "p10", "cohort": "B", "ageBand": "25-34", "mentorMatched": true,  "sessionsAttended": 10, "completed": true,  "employmentMonths": 4 },
+    { "participantId": "p11", "cohort": "B", "ageBand": "18-24", "mentorMatched": false, "sessionsAttended": 4,  "completed": false, "employmentMonths": 0 },
+    { "participantId": "p12", "cohort": "B", "ageBand": "35-44", "mentorMatched": false, "sessionsAttended": 6,  "completed": false, "employmentMonths": 2 },
+    { "participantId": "p13", "cohort": "B", "ageBand": "25-34", "mentorMatched": false, "sessionsAttended": 7,  "completed": true,  "employmentMonths": 3 },
+    { "participantId": "p14", "cohort": "B", "ageBand": "18-24", "mentorMatched": true,  "sessionsAttended": 9,  "completed": true,  "employmentMonths": 5 },
+    { "participantId": "p15", "cohort": "B", "ageBand": "35-44", "mentorMatched": false, "sessionsAttended": 5,  "completed": false, "employmentMonths": 0 },
+    { "participantId": "p16", "cohort": "B", "ageBand": "25-34", "mentorMatched": false, "sessionsAttended": 6,  "completed": false, "employmentMonths": 1 },
+
+    { "participantId": "p17", "cohort": "C", "ageBand": "18-24", "mentorMatched": true,  "sessionsAttended": 9,  "completed": true,  "employmentMonths": 4 },
+    { "participantId": "p18", "cohort": "C", "ageBand": "25-34", "mentorMatched": true,  "sessionsAttended": 8,  "completed": true,  "employmentMonths": 3 },
+    { "participantId": "p19", "cohort": "C", "ageBand": "35-44", "mentorMatched": false, "sessionsAttended": 5,  "completed": false, "employmentMonths": 0 },
+    { "participantId": "p20", "cohort": "C", "ageBand": "25-34", "mentorMatched": true,  "sessionsAttended": 10, "completed": true,  "employmentMonths": 6 }
+  ],
+  "fallback": {
+    "narrative": "The strongest signal in the data is mentor matching: participants paired with a mentor complete at a much higher rate than those who aren't. Cohort B's lower completion appears to be driven largely by a lower mentor-match rate in that group, not by participant characteristics. Sample sizes per cohort are small (n=8 for A and B), so treat this as a hypothesis to test, not a conclusion."
+  }
+}

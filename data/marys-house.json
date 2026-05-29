@@ -1,0 +1,74 @@
+{
+  "_demo": true,
+  "_note": "DEMO DATA — illustrative grants, not real funder records. Replace with a live feed before any real ask.",
+  "grants": [
+    {
+      "id": "g1",
+      "title": "Women's Safety Fund — Crisis Accommodation Round",
+      "funder": "NSW Department of Communities and Justice",
+      "amountRange": [25000, 80000],
+      "deadline": "2026-07-15",
+      "link": "https://example.gov.au/grants/wsf-crisis-2026",
+      "eligibilityTags": {
+        "cause": ["domestic violence", "women", "housing"],
+        "region": ["nsw", "sydney"],
+        "peopleServed": ["women", "children", "families"]
+      }
+    },
+    {
+      "id": "g2",
+      "title": "Frontline Practitioners Capacity Grant",
+      "funder": "Snow Foundation",
+      "amountRange": [10000, 40000],
+      "deadline": "2026-06-20",
+      "link": "https://example.org/snow/practitioners-2026",
+      "eligibilityTags": {
+        "cause": ["domestic violence", "women", "mental health"],
+        "region": ["national"],
+        "peopleServed": ["women", "families"]
+      }
+    },
+    {
+      "id": "g3",
+      "title": "Children & Young People Recovery Grant",
+      "funder": "Paul Ramsay Foundation",
+      "amountRange": [50000, 200000],
+      "deadline": "2026-09-30",
+      "link": "https://example.org/prf/cyp-2026",
+      "eligibilityTags": {
+        "cause": ["children", "domestic violence", "education"],
+        "region": ["national"],
+        "peopleServed": ["children", "youth", "families"]
+      }
+    },
+    {
+      "id": "g4",
+      "title": "Local Community Resilience Grant",
+      "funder": "City of Parramatta",
+      "amountRange": [2000, 15000],
+      "deadline": "2026-06-05",
+      "link": "https://example.gov.au/parra/community-2026",
+      "eligibilityTags": {
+        "cause": ["housing", "homelessness"],
+        "region": ["nsw", "sydney", "parramatta"],
+        "peopleServed": ["families", "women"]
+      }
+    },
+    {
+      "id": "g5",
+      "title": "Innovation in Service Design Pilot Fund",
+      "funder": "Westpac Foundation",
+      "amountRange": [60000, 120000],
+      "deadline": "2026-08-10",
+      "link": "https://example.org/westpac/innovation-2026",
+      "eligibilityTags": {
+        "cause": ["women", "domestic violence", "education"],
+        "region": ["national"],
+        "peopleServed": ["women"]
+      }
+    }
+  ],
+  "fallback": {
+    "narrative": "Based on the brief profile we extracted, the Women's Safety Fund — Crisis Accommodation Round looks like the strongest fit on cause, region, and ask size. The Snow Foundation Frontline Practitioners Capacity Grant is a workable runner-up, especially if the team can move on the June deadline. Watch the City of Parramatta round — small ticket but it closes soon."
+  }
+}

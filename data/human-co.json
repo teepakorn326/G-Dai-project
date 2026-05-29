@@ -1,0 +1,68 @@
+{
+  "_demo": true,
+  "_note": "DEMO DATA — fictional sites, techs, bookings and compliance obligations.",
+  "sites": [
+    {
+      "id": "site-parra",
+      "name": "Parramatta Community House",
+      "suburb": "Parramatta NSW",
+      "compliance": ["Annual gas-fitting cert due Sep 2026", "Fire blanket inspection overdue"]
+    },
+    {
+      "id": "site-newt",
+      "name": "Newtown Drop-in Centre",
+      "suburb": "Newtown NSW",
+      "compliance": ["RCD test due July 2026"]
+    },
+    {
+      "id": "site-blacktown",
+      "name": "Blacktown Family Hub",
+      "suburb": "Blacktown NSW",
+      "compliance": []
+    },
+    {
+      "id": "site-wgong",
+      "name": "Wollongong Outreach Office",
+      "suburb": "Wollongong NSW",
+      "compliance": ["HVAC service log overdue by 2 weeks"]
+    }
+  ],
+  "techs": [
+    {
+      "id": "tech-anh",
+      "name": "Anh N.",
+      "skills": ["plumbing", "general"],
+      "dailyHoursCap": 7,
+      "servesSiteIds": ["site-parra", "site-blacktown"]
+    },
+    {
+      "id": "tech-marcus",
+      "name": "Marcus W.",
+      "skills": ["electrical", "general"],
+      "dailyHoursCap": 7,
+      "servesSiteIds": ["site-parra", "site-newt"]
+    },
+    {
+      "id": "tech-jin",
+      "name": "Jin L.",
+      "skills": ["hvac", "general"],
+      "dailyHoursCap": 6,
+      "servesSiteIds": ["site-newt", "site-wgong"]
+    },
+    {
+      "id": "tech-priya",
+      "name": "Priya S.",
+      "skills": ["general", "plumbing", "electrical"],
+      "dailyHoursCap": 8,
+      "servesSiteIds": ["site-blacktown", "site-wgong", "site-parra"]
+    }
+  ],
+  "bookings": [
+    { "techId": "tech-anh", "siteId": "site-parra", "date": "2026-05-29", "hours": 5 },
+    { "techId": "tech-marcus", "siteId": "site-newt", "date": "2026-05-29", "hours": 4 },
+    { "techId": "tech-jin", "siteId": "site-wgong", "date": "2026-05-30", "hours": 3 }
+  ],
+  "fallback": {
+    "narrative": "Triage logged. The deterministic scheduler has chosen the earliest viable slot for the assigned tech within the SLA window. Please confirm with the site contact and check the compliance flags below before dispatch."
+  }
+}

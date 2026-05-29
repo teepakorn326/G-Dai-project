@@ -1,0 +1,22 @@
+{
+  "_demo": true,
+  "_note": "DEMO DATA — mock donors. FY2025 org-level figures are realistic stand-ins, not audited.",
+  "orgFacts": {
+    "fy": "FY2025",
+    "mealsDelivered": 30962,
+    "womenSupported": 47,
+    "paidHours": 22629,
+    "wagesPaid": 726246,
+    "costPerWomanAud": 30000
+  },
+  "donors": [
+    { "id": "d1", "name": "Jess M.", "lastGiftAud": 50, "channel": "one-off web" },
+    { "id": "d2", "name": "Aanya R.", "lastGiftAud": 250, "channel": "monthly" },
+    { "id": "d3", "name": "Workplace giving — Lendi", "lastGiftAud": 1200, "channel": "payroll" },
+    { "id": "d4", "name": "Pat & Co. Pty Ltd", "lastGiftAud": 5000, "channel": "corporate" },
+    { "id": "d5", "name": "Anon", "lastGiftAud": 30, "channel": "in-memoriam" }
+  ],
+  "fallback": {
+    "narrative": "Thanks for backing the program. In pooled terms, a gift this size funds the equivalent of a few paid work hours through Two Good's Work Work Work program — a small but real share of one woman's twelve-month journey. We're grateful for it."
+  }
+}
