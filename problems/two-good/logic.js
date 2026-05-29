@@ -247,11 +247,20 @@ export function completionRate(clients) {
 function getClientAverage(client, timepoint) {
   const scores = client.scores?.[timepoint];
   if (!scores) return null;
-  const vals = Object.values(scores).filter(
-    (v) => v !== null && v !== undefined && typeof v === 'number'
-  );
-  if (vals.length === 0) return null;
-  return vals.reduce((sum, v) => sum + v, 0) / vals.length;
+  let sum = 0;
+  let count = 0;
+  for (const dim of PWI_DIMENSIONS) {
+    const v = scores[dim];
+    if (v !== null && v !== undefined && typeof v === 'number') {
+      const normalized = getNormalizedScore(dim, v);
+      if (normalized !== null) {
+        sum += normalized;
+        count++;
+      }
+    }
+  }
+  if (count === 0) return null;
+  return sum / count;
 }
 
 /**

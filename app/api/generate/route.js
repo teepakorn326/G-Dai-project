@@ -9,7 +9,6 @@ import path from "node:path";
 import os from "node:os";
 import { handle as handleTwoGood } from "../../../problems/two-good/handler.js";
 import { PROBLEM_IDS } from "../../../lib/constants.js";
-import { loadFallback } from "../../../lib/loadData.js";
 
 // Force Node runtime — we read files from disk and call the Gemini SDK.
 export const runtime = "nodejs";
@@ -74,14 +73,18 @@ export async function POST(req) {
     // Last-ditch safety net: even unexpected errors return a usable fallback
     // so the live demo doesn't show an error screen.
     console.error(`[api/generate] ${problem} blew up:`, err);
-    let fallback;
+    // Last-ditch safety net: return the same result shape the UI renders, using
+    // the tracker's pre-written fallback, so the page never crashes mid-demo.
+    let fb = {
+      insights: [],
+      narrative: { headlineOutcomes: "", cohortBreakdown: "", closingRemarks: "" },
+    };
     try {
-      fallback = loadFallback(problem);
-    } catch {
-      fallback = {
-        narrative:
-          "Something went wrong and no fallback was defined. Try again or pick a different problem.",
-      };
+      const trackerPath = path.join(process.cwd(), "data", "two-good-tracker.json");
+      const tracker = JSON.parse(fs.readFileSync(trackerPath, "utf8"));
+      if (tracker.fallback) fb = tracker.fallback;
+    } catch (e) {
+      console.warn("[api/generate] could not load tracker fallback:", e.message);
     }
     return NextResponse.json(
       {
@@ -89,9 +92,11 @@ export async function POST(req) {
         problem,
         isFallback: true,
         result: {
-          narrative: fallback.narrative,
-          metrics: { Error: err?.code || "UNKNOWN" },
-          raw: { error: String(err?.message || err) },
+          metrics: {},
+          insights: fb.insights || [],
+          narrative: fb.narrative,
+          computedMetrics: { totalDatapoints: 0 },
+          raw: { clients: [], totalClients: 0, error: String(err?.message || err) },
         },
       },
       { status: 200 }
