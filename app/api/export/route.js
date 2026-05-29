@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 
 export async function POST(req) {
   try {
-    const { clients } = await req.json();
+    const { clients, generatedAt } = await req.json();
     if (!clients || !Array.isArray(clients)) {
       return NextResponse.json({ error: "Invalid clients data provided." }, { status: 400 });
     }
@@ -15,7 +15,7 @@ export async function POST(req) {
     const templatePath = path.join(process.cwd(), "data", "TwoGoodCo-PWI_Client_Tracker.xlsx");
 
     // Fill the styled template in memory and return the workbook directly.
-    const fileBuffer = await exportExcel(clients, templatePath);
+    const fileBuffer = await exportExcel(clients, templatePath, generatedAt);
 
     return new NextResponse(fileBuffer, {
       status: 200,

@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState } from "react";
+
 const LIKERT_5_DIMS = new Set([
   "Financial Worry", "Self-Confidence", "Voice & Agency", "Work Readiness",
 ]);
@@ -30,6 +32,53 @@ function MovementBar({ baseline, current, max, tone = "emerald" }) {
 }
 
 export default function ReportSummary({ report }) {
+  const rootRef = useRef(null);
+  const [downloading, setDownloading] = useState(false);
+  const [generatedAt] = useState(() => new Date());
+
+  // Render each topic (a [data-pdf-section] block) on its own PDF page so a
+  // section is never split across a page break.
+  async function handleDownloadPdf() {
+    const node = rootRef.current;
+    if (!node || downloading) return;
+    setDownloading(true);
+    try {
+      const [{ default: html2canvas }, jspdf] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      const JsPDF = jspdf.jsPDF || jspdf.default;
+      const sections = Array.from(node.querySelectorAll("[data-pdf-section]"));
+      const targets = sections.length ? sections : [node];
+      const pdf = new JsPDF({ orientation: "p", unit: "pt", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 28;
+      const maxW = pageW - margin * 2;
+      const maxH = pageH - margin * 2;
+      for (let i = 0; i < targets.length; i++) {
+        const canvas = await html2canvas(targets[i], {
+          scale: 2,
+          backgroundColor: "#f9f9fa",
+          useCORS: true,
+        });
+        let w = maxW;
+        let h = (canvas.height * w) / canvas.width;
+        if (h > maxH) {
+          h = maxH;
+          w = (canvas.width * h) / canvas.height;
+        }
+        if (i > 0) pdf.addPage();
+        pdf.addImage(canvas.toDataURL("image/png"), "PNG", (pageW - w) / 2, margin, w, h);
+      }
+      pdf.save("TwoGood_Impact_Summary.pdf");
+    } catch (e) {
+      alert("Could not generate PDF: " + (e?.message || e));
+    } finally {
+      setDownloading(false);
+    }
+  }
+
   if (!report?.result) return null;
 
   const { result, isFallback } = report;
@@ -66,23 +115,37 @@ export default function ReportSummary({ report }) {
   ].filter((s) => narrative[s.key]);
 
   return (
-    <div className="mt-unit-8 space-y-6">
+    <div ref={rootRef} className="mt-unit-8 space-y-6">
+      {/* Topic page — overview */}
+      <div data-pdf-section className="space-y-6">
       {/* Header */}
       <div className="flex items-end justify-between flex-wrap gap-unit-2">
         <div>
           <h2 className="font-headline-lg text-headline-lg text-primary tracking-tight">Quarterly impact summary</h2>
           <p className="font-label-md text-label-md text-secondary mt-1">
-            Baseline → 6-month outcomes across {totalClients ?? "—"} clients
+            Baseline → 6-month outcomes across {totalClients ?? "—"} clients · Generated {generatedAt.toLocaleString()}
           </p>
         </div>
-        <span
-          className={`inline-flex items-center gap-2 font-label-md text-label-md px-4 py-1.5 rounded-[9999px] ${
-            isFallback ? "bg-error-container text-error" : "bg-primary text-on-primary"
-          }`}
-        >
-          <span className="material-symbols-outlined text-[16px]">{isFallback ? "offline_bolt" : "auto_awesome"}</span>
-          {isFallback ? "Fallback copy" : "Gemini-generated"}
-        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className={`inline-flex items-center gap-2 font-label-md text-label-md px-4 py-1.5 rounded-[9999px] ${
+              isFallback ? "bg-error-container text-error" : "bg-secondary-container text-on-secondary-container"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[16px]">{isFallback ? "offline_bolt" : "auto_awesome"}</span>
+            {isFallback ? "Fallback copy" : "Gemini-generated"}
+          </span>
+          <button
+            type="button"
+            data-html2canvas-ignore
+            onClick={handleDownloadPdf}
+            disabled={downloading}
+            className="inline-flex items-center gap-2 font-label-md text-label-md px-4 py-1.5 rounded-[9999px] bg-primary text-on-primary transition-opacity hover:opacity-90 disabled:opacity-60"
+          >
+            <span className="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+            {downloading ? "Preparing…" : "Download PDF"}
+          </button>
+        </div>
       </div>
 
       {/* Hero + key stats */}
@@ -153,10 +216,11 @@ export default function ReportSummary({ report }) {
           </div>
         </div>
       </div>
+      </div>
 
-      {/* Narrative */}
+      {/* Topic page — narrative */}
       {narrativeSections.length > 0 && (
-        <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-6 md:p-8 shadow-sm space-y-6">
+        <div data-pdf-section className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-6 md:p-8 shadow-sm space-y-6">
           {narrativeSections.map((s) => (
             <div key={s.key} className="flex gap-4">
               <div className="flex flex-col items-center">
@@ -174,9 +238,9 @@ export default function ReportSummary({ report }) {
         </div>
       )}
 
-      {/* Key insights */}
+      {/* Topic page — key insights */}
       {insights.length > 0 && (
-        <div>
+        <div data-pdf-section>
           <h3 className="font-headline-md text-headline-md text-primary mb-4 flex items-center gap-2">
             <span className="material-symbols-outlined text-emerald-success">lightbulb</span>
             Key insights
@@ -194,10 +258,10 @@ export default function ReportSummary({ report }) {
         </div>
       )}
 
-      {/* Dimension movement + side panel */}
+      {/* Dimension movement + side panel — each its own topic page */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {changeRows.length > 0 && (
-          <div className="lg:col-span-2 rounded-2xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm">
+          <div data-pdf-section className="lg:col-span-2 rounded-2xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-1">
               <span className="material-symbols-outlined text-primary">analytics</span>
               <h3 className="font-headline-md text-headline-md text-primary">Dimension movement</h3>
@@ -228,7 +292,7 @@ export default function ReportSummary({ report }) {
           </div>
         )}
 
-        <div className="space-y-4">
+        <div data-pdf-section className="space-y-4">
           {/* Cohorts */}
           {cohorts.length > 0 && (
             <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm">

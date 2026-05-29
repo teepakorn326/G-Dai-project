@@ -95,7 +95,7 @@ export default function ReportDashboard() {
       const res = await fetch("/api/export", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clients: report.result.raw.clients })
+        body: JSON.stringify({ clients: report.result.raw.clients, generatedAt: new Date().toLocaleString() })
       });
 
       if (!res.ok) {
@@ -384,7 +384,7 @@ export default function ReportDashboard() {
                 <div className="w-full mt-unit-8 border border-outline-variant bg-surface rounded-lg p-unit-4 flex items-center justify-center gap-unit-4 z-10">
                   <span className="w-2 h-2 rounded-full bg-emerald-success"></span>
                   <p className="font-label-md text-label-md text-secondary tracking-wide flex items-center gap-2">
-                    Import logged <span className="opacity-40">•</span> Gemini Engine <span className="opacity-40">•</span> Generated {new Date().toLocaleDateString()}
+                    Import logged <span className="opacity-40">•</span> Gemini Engine <span className="opacity-40">•</span> Generated {new Date().toLocaleString()}
                   </p>
                 </div>
               </section>
