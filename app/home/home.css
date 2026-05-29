@@ -1,0 +1,80 @@
+/* Landing page styles — loaded only on the /home route via Next CSS code-splitting. */
+:root{
+  --bg:#f9f9fa;
+  --surface:#ffffff;
+  --surface-low:#f3f3f4;
+  --line:#cfc4c5;
+  --ink:#050505;
+  --muted:#5d5e66;
+  --soft:#e8e8e9;
+  --purple:#5d3b78;
+  --green:#10b981;
+  --orange:#f97316;
+}
+.tg-home *{box-sizing:border-box}
+.tg-home{background:var(--bg);color:var(--ink);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+.tg-home .brand-font{font-family:Impact,"Arial Black",Haettenschweiler,sans-serif;letter-spacing:-.04em;line-height:.88;text-transform:uppercase}
+.tg-home .mono{font-family:"JetBrains Mono","Courier New",monospace;text-transform:uppercase;letter-spacing:.06em;font-size:12px}
+.tg-home .page{min-height:100vh;position:relative;isolation:isolate}
+.tg-home .btn{appearance:none;border:1px solid var(--ink);border-radius:14px;padding:13px 18px;background:var(--ink);color:white;font-weight:800;text-decoration:none;display:inline-flex;gap:10px;align-items:center;transition:.18s;cursor:pointer}
+.tg-home .btn:hover{transform:translateY(-2px)}
+.tg-home .btn.secondary{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.tg-home .hero{max-width:1280px;margin:0 auto;padding:64px 32px 28px;display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:stretch}
+.tg-home .hero-copy{background:var(--ink);color:white;border-radius:28px;padding:48px;min-height:650px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.tg-home .hero-copy:before{content:"";position:absolute;inset:auto -90px -140px auto;width:360px;height:360px;border-radius:50%;border:54px solid rgba(255,255,255,.08)}
+.tg-home .kicker{display:inline-flex;align-items:center;gap:10px;color:#d9d9d9}
+.tg-home .dot{width:8px;height:8px;border-radius:50%;background:white;display:inline-block}
+.tg-home .hero h1{font-size:clamp(64px,9vw,142px);margin:34px 0 22px;max-width:820px}
+.tg-home .hero p{font-size:19px;line-height:1.55;color:#e2e2e3;max-width:660px}
+.tg-home .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+.tg-home .hero-actions .btn.secondary{background:white;color:black;border-color:white}
+.tg-home .hero-actions .btn.ghost{background:transparent;color:white;border-color:rgba(255,255,255,.36)}
+.tg-home .hero-panel{display:grid;grid-template-rows:auto 1fr;gap:20px}
+.tg-home .preview-card{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 26px 70px rgba(0,0,0,.10)}
+.tg-home .window-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.tg-home .traffic{display:flex;gap:6px}
+.tg-home .traffic span{width:10px;height:10px;border-radius:50%;background:#d1d1d1}
+.tg-home .screen{border:1px solid var(--line);border-radius:22px;background:var(--bg);overflow:hidden}
+.tg-home .screen-top{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line)}
+.tg-home .mini-logo{font-weight:900;text-transform:uppercase;line-height:.88}
+.tg-home .screen-body{display:grid;grid-template-columns:160px 1fr;min-height:410px}
+.tg-home .side{background:var(--surface-low);border-right:1px solid var(--line);padding:18px 12px}
+.tg-home .side div{height:36px;margin-bottom:9px;border-radius:10px;background:transparent;color:var(--muted);display:flex;align-items:center;padding-left:12px;font-size:12px;font-weight:800}
+.tg-home .side div:first-child{background:var(--ink);color:white}
+.tg-home .main-preview{padding:22px}
+.tg-home .stepper{height:46px;border:1px solid var(--line);border-radius:14px;background:white;display:flex;align-items:center;justify-content:space-around;margin-bottom:18px}
+.tg-home .circle{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:white;font-size:12px;font-weight:800}
+.tg-home .upload-box{height:180px;border:2px dashed #bababa;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:white}
+.tg-home .upload-icon{width:58px;height:58px;border-radius:18px;background:var(--soft);display:grid;place-items:center;font-size:28px;margin-bottom:14px}
+.tg-home .file-row{margin-top:18px;border:1px solid var(--line);border-radius:14px;background:white;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.tg-home .metrics-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tg-home .metric{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:24px}
+.tg-home .metric b{font-family:Impact,"Arial Black",sans-serif;font-size:48px;line-height:1.02;letter-spacing:-.04em;display:block;margin-bottom:6px}
+.tg-home .metric span{color:var(--muted);display:block;line-height:1.3}
+.tg-home .impact{max-width:1280px;margin:0 auto;padding:18px 32px 58px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.tg-home .impact-card{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:34px;position:relative;overflow:hidden}
+.tg-home .impact-card.dark{background:var(--ink);color:white}
+.tg-home .impact-card h2{font-size:58px;margin:0 0 18px}
+.tg-home .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:34px 24px;margin-top:28px}
+.tg-home .big-stat{border-top:1px solid currentColor;padding-top:14px}
+.tg-home .big-stat b{font-family:Impact,"Arial Black",sans-serif;font-size:46px;line-height:1.04;letter-spacing:-.03em;display:block;margin-bottom:8px}
+.tg-home .big-stat span{display:block;font-weight:800;text-transform:uppercase;font-size:13px;line-height:1.25}
+.tg-home .journey{display:flex;gap:12px;margin-top:24px}
+.tg-home .journey div{flex:1;background:var(--surface-low);border:1px solid var(--line);border-radius:18px;padding:16px}
+.tg-home .journey b{display:block;margin-bottom:8px}
+.tg-home .purple-block{position:absolute;right:-55px;bottom:-55px;width:210px;height:210px;background:var(--purple);border-radius:42px;transform:rotate(12deg);opacity:.22}
+.tg-home .footer{max-width:1280px;margin:0 auto 36px;padding:0 32px}
+.tg-home .footer-inner{background:var(--ink);color:white;border-radius:28px;padding:28px 34px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.tg-home .footer a{color:white;font-weight:900;text-transform:uppercase}
+@media(max-width:920px){
+  .tg-home .hero,.tg-home .impact{grid-template-columns:1fr}
+  .tg-home .hero-copy{min-height:auto;padding:32px}
+  .tg-home .screen-body{grid-template-columns:1fr}
+  .tg-home .side{display:none}
+  .tg-home .footer-inner{flex-direction:column;align-items:flex-start}
+  .tg-home .metrics-strip{grid-template-columns:1fr}
+  .tg-home .hero{padding-inline:18px}
+  .tg-home .impact,.tg-home .footer{padding-inline:18px}
+  .tg-home .impact-card h2{font-size:42px}
+  .tg-home .stat-grid{grid-template-columns:1fr}
+}
