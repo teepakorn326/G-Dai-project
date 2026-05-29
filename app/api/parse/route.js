@@ -25,16 +25,13 @@ export async function POST(req) {
       return NextResponse.json({ error: "Maximum of 5 files allowed." }, { status: 400 });
     }
     
-    // Use OS temp directory for Vercel compatibility
-    const tempDir = path.join(os.tmpdir(), "gdai_uploads");
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
-    }
+    const tempDir = os.tmpdir();
     
     // Save files locally
     for (const fileData of fileDatas) {
       if (typeof fileData.arrayBuffer !== "function") continue;
-      const tempFilePath = path.join(tempDir, `${Date.now()}_preview_${fileData.name}`);
+      const safeName = fileData.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const tempFilePath = path.join(tempDir, `${Date.now()}_preview_${safeName}`);
       const buffer = Buffer.from(await fileData.arrayBuffer());
       fs.writeFileSync(tempFilePath, buffer);
       tempFilePaths.push(tempFilePath);

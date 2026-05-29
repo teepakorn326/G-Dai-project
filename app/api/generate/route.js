@@ -27,17 +27,13 @@ export async function POST(req) {
 
       let filesArr = [];
       if (fileDatas && fileDatas.length > 0) {
-        // Use OS temp directory for Vercel compatibility
-        const tempDir = path.join(os.tmpdir(), "gdai_uploads");
-        if (!fs.existsSync(tempDir)) {
-          fs.mkdirSync(tempDir, { recursive: true });
-        }
+        const tempDir = os.tmpdir();
         
         for (const fileData of fileDatas) {
           if (typeof fileData.arrayBuffer !== "function") continue;
           
-          // Save file locally
-          const tPath = path.join(tempDir, `${Date.now()}_${fileData.name}`);
+          const safeName = fileData.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+          const tPath = path.join(tempDir, `${Date.now()}_${safeName}`);
           const buffer = Buffer.from(await fileData.arrayBuffer());
           fs.writeFileSync(tPath, buffer);
 

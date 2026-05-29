@@ -17,11 +17,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid clients data provided." }, { status: 400 });
     }
     
-    // Use OS temp directory for Vercel compatibility
-    const tempDir = path.join(os.tmpdir(), "gdai_uploads");
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
-    }
+    const tempDir = os.tmpdir();
     
     const timestamp = Date.now();
 
